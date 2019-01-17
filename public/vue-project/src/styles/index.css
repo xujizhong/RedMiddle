@@ -1,0 +1,81 @@
+html,body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.fl{
+    float: left !important;
+}
+.fr{
+    float: right !important;
+}
+.el-menu-item:first-child{
+  border: 0 !important;
+  padding: 0 5px;
+}
+#titleImage{
+  width: 100%;
+  height: 200px;
+}
+.quill-code {
+    border: none;
+    height: auto;
+  }
+  .ql-container {
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0;
+    height: 10rem;
+    overflow-y: auto;
+    resize: vertical;
+  }
+  .ql-toolbar {
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #dcdfe6 !important;
+  }
+  .ql-container {
+    border-width: 0 1px 1px 1px !important;
+    border-color: #dcdfe6 !important;
+  }
+  .ql-editor.ql-blank::before {
+    content: "请输入内容";
+    font-style: inherit;
+    color: #c0c4cc;
+  }
+  .ql-editor {
+    padding: 0;
+  }
+  .el-breadcrumb{
+    display: inline-block;
+    padding:0 10px;
+    height: fit-content;
+  }
+  .el-breadcrumb__inner{
+    font-size:18px !important;
+  }
+  .v-center{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .model-footer{
+    margin:20px 0 0 0;
+    text-align: right;
+  }
+.el-pagination{
+  margin-top:10px;
+  text-align: right;
+}
+.icon{
+  width: 16px;
+  margin-right: 9px;
+}
+.avatar_nav{
+  width:25px;
+}
+.avatar_reply{
+  width:80%;
+}
