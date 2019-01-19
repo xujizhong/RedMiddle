@@ -7,6 +7,7 @@
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
+          menu-trigger="click"
         >
           <el-menu-item index="/">
             <img class="navLogo" src="../../assets/logo_text.png">
@@ -34,6 +35,7 @@
       <el-main>
         <router-view/>
       </el-main>
+      <el-footer>copyright © RedMiddle <a href="http://www.miitbeian.gov.cn/">辽ICP备18015473号</a></el-footer>
     </el-container>
   </div>
 </template>
