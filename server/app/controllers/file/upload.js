@@ -3,21 +3,20 @@ const qiniu = require('qiniu');
 const config = require('../../../config/config');
 const Duplex = require('stream').Duplex;
 
-const accessKey = config.AK;
-const secretKey = config.SK;
-const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-const options = {
-    scope: config.scope,
-};
-
-const putPolicy = new qiniu.rs.PutPolicy(options);
-const uploadToken = putPolicy.uploadToken(mac);
-const config_zf = new qiniu.conf.Config();
-config_zf.zone = qiniu.zone.Zone_z1;
-const formUploader = new qiniu.form_up.FormUploader(config_zf);
-const putExtra = new qiniu.form_up.PutExtra();
-
 const upload = (filePath, fileName, file) => {
+    const accessKey = config.AK;
+    const secretKey = config.SK;
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+    const options = {
+        scope: config.scope,
+    };
+
+    const putPolicy = new qiniu.rs.PutPolicy(options);
+    const uploadToken = putPolicy.uploadToken(mac);
+    const config_zf = new qiniu.conf.Config();
+    config_zf.zone = qiniu.zone.Zone_z1;
+    const formUploader = new qiniu.form_up.FormUploader(config_zf);
+    const putExtra = new qiniu.form_up.PutExtra();
 
     const base64Data = file.split(';')[1].split(',')[1];
 
@@ -34,11 +33,11 @@ const upload = (filePath, fileName, file) => {
             }
             if (respInfo.statusCode == 200) {
                 console.log(respBody);
-                resolve({code:200})
+                resolve({ code: 200 })
             } else {
                 console.log(respInfo.statusCode);
                 console.log(respBody);
-                resolve({code:500})
+                resolve({ code: 500 })
 
             }
         });
