@@ -49,7 +49,6 @@ export default {
   methods: {
     async setUser() {
       const { data } = await https.getSessionData();
-
       this.$store.commit("setUser", data || {}); //将user放入vuex
     },
     async logout() {

@@ -14,6 +14,7 @@
     "lodash": "^4.17.11",
     "medium-editor": "^5.23.3",
     "moment": "^2.22.2",
+    "qiniu": "^7.2.1",
     "tiptap-extensions": "^1.7.0",
     "vue": "^2.5.17",
     "vue-icon": "^2.1.1",

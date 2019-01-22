@@ -1,7 +1,7 @@
 
-const moment = require('moment')
+import moment from 'moment'
 
-module.exports = {
+export default {
     postTimeFormat(time) {
         const TimeNow = moment().format('YYYY-MM-DD HH:mm:ss');
         const m = parseInt(moment(TimeNow).diff(moment(time)) / (1000 * 60));

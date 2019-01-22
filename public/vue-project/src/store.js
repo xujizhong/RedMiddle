@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    api: 'http://59.110.230.38:3000'
+    api: 'http://localhost:3000'
   },
   mutations: {
     setUser(state, user) {

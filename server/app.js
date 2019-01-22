@@ -9,6 +9,7 @@ const router = require('./routes/routes');  //路由
 const adminRouter = require('./routes/admin/routes');  //管理模块路由
 const gameRouter = require('./routes/game/routes');  //游戏模块路由
 const userRouter = require('./routes/user/routes');  //用户模块路由
+const urlRouter = require('./routes/file/routes');  //fileurl模块路由
 const bodyParser = require('koa-bodyparser');  //req.body中间件
 
 const maxAge = 24 * 60 * 60 * 7; //session cookie 过期时间（7day）
@@ -92,6 +93,7 @@ app.use(cors({ origin: config.cors_origin, credentials: true }));
   app.use(adminRouter.routes());
   app.use(gameRouter.routes());
   app.use(userRouter.routes());
+  app.use(urlRouter.routes());
 
 
 })()

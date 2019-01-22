@@ -212,7 +212,7 @@ export default {
       fr.onload = () => {
         this.$set(this.chooseData, `${!i ? "image" : "titleImage"}`, fr.result);
       };
-
+      
       fr.readAsDataURL(imgFile);
     }
   }
