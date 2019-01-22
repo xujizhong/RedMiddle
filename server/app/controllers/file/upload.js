@@ -29,6 +29,7 @@ const upload = (filePath, fileName, file) => {
         formUploader.putStream(uploadToken, key, readableStream, putExtra, function (respErr,
             respBody, respInfo) {
             if (respErr) {
+                resolve({ code: 500 })
                 throw respErr;
             }
             if (respInfo.statusCode == 200) {

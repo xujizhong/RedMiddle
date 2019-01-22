@@ -2,12 +2,13 @@ const gameCollection = require('../../models/gameCollection');
 const gamePost = require('../../models/gamePost');
 const gameReply = require('../../models/gameReply');
 const mongoose = require('mongoose');
+const url = require('../file/url');
 
 const gameObj = {
     getSingleGameData: async (ctx) => {
         const englishName = ctx.params.englishName;
         const res = await gameCollection.findOne({ englishName });
-
+        res.titleImage = url(res.titleImage)
         ctx.body = res
     },
     getSingleGamePosts: async (ctx) => {
@@ -48,7 +49,10 @@ const gameObj = {
         sort({ 'meta.updateAt': -1 }).
         populate('user')
 
-        const res = await Promise.all([res1, res2, res3]).then(res => res);
+        const res = await Promise.all([res1, res2, res3]).then(res => {
+            res[0].titleImage = url(res[0].titleImage)
+            return res
+        });
 
         ctx.body = { res, count };
     },

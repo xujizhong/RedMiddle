@@ -1,7 +1,9 @@
 const gameCollection = require('../../models/gameCollection');
 const upload = require('../file/upload');
+const deleteFile = require('../file/delete');
 const url = require('../file/url');
 const mongoose = require('mongoose');
+const _config = require('../../../config/config')
 
 const gameCollectionObj = {
     editGameCollection: async (ctx) => {
@@ -11,14 +13,65 @@ const gameCollectionObj = {
 
         const timestamp = Date.now();
 
-        const imageType = data.image.split(';')[0].split('/')[1];
-        const titleImageType = data.titleImage.split(';')[0].split('/')[1];
+        var imageType = '';
+        var titleImageType = '';
 
-        const imageName = 'i' + timestamp + '.' + imageType;
-        const titleImageName = 't' + timestamp + '.' + titleImageType;
+        if (data.image.indexOf(_config.qiniuUrl) >= 0) {
+            imageType = data.image.split('?')[0].split('.')
+            imageType = imageType[imageType.length-1]
+        } else {
+            imageType = data.image.split(';')[0].split('/')[1]
+        }
+        if (data.image.indexOf(_config.qiniuUrl) >= 0) {
+            titleImageType = data.titleImage.split('?')[0].split('.')
+            titleImageType = titleImageType[titleImageType.length-1]
 
-        const p1 = upload(filePath, imageName, data.image);
-        const p2 = upload(filePath, titleImageName, data.titleImage);
+        } else {
+            titleImageType = data.titleImage.split(';')[0].split('/')[1]
+        }
+
+        var imageName = 'i' + timestamp + '.' + imageType;
+        var titleImageName = 't' + timestamp + '.' + titleImageType;
+
+        var p1 = Promise.resolve({ code: 200 })
+        var p2 = Promise.resolve({ code: 200 })
+
+        //先执行删除七牛云文件，防止先上传形成垃圾文件
+        if (data._id) {
+
+            const { image } = await gameCollection.findOne({ _id: data._id });
+            if (data.image.indexOf(_config.qiniuUrl) < 0) {
+                const d1 = await deleteFile(image);
+                if (d1.code != 200) {
+                    ctx.body = { code: 500, msg: "上传文件出错" };
+                    return;
+                }
+                p1 = upload(filePath, imageName, data.image);
+            }else{
+                imageName = image.split('/')
+                imageName = imageName[imageName.length-1]
+
+            }
+
+
+            const { titleImage } = await gameCollection.findOne({ _id: data._id });
+            if (data.titleImage.indexOf(_config.qiniuUrl) < 0) {
+                const d2 = await deleteFile(titleImage);
+                if (d2.code != 200) {
+                    ctx.body = { code: 500, msg: "上传文件出错" };
+                    return;
+                }
+                p2 = upload(filePath, titleImageName, data.titleImage);
+            }else{
+                titleImageName = titleImage.split('/')
+                titleImageName = titleImageName[titleImageName.length-1]
+            }
+        } else {
+            p1 = upload(filePath, imageName, data.image);
+            p2 = upload(filePath, titleImageName, data.titleImage);
+        }
+
+
 
         const fileRes = await Promise.all([p1, p2]).then(res => res)
         if (fileRes[0].code != 200 || fileRes[1].code != 200) {
@@ -51,7 +104,7 @@ const gameCollectionObj = {
     },
     queryGameCollection: async (ctx) => {
         const res = await gameCollection.fetch();
-        res.forEach(n=>{
+        res.forEach(n => {
             n.image = url(n.image)
             n.titleImage = url(n.titleImage)
         })
