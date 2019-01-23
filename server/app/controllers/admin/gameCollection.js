@@ -114,7 +114,7 @@ const gameCollectionObj = {
 
         const res = await Promise.all([res1, res2, res3]).then(res => res);
 
-        if (res[0].errors || res2.ok != 1 || res3.ok != 1) {
+        if (res[0].errors || res[1].ok != 1 || res[2].ok != 1) {
             console.log(res)
             ctx.body = { code: 500 };
             return
