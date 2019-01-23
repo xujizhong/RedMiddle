@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 var gameReplySchema = new mongoose.Schema({
     postId: String,
+    gameId: String,
     user: { type: Schema.Types.ObjectId, ref: 'users' },
     content: String,
     meta: {

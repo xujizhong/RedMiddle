@@ -67,12 +67,12 @@ const gameObj = {
             ctx.body = { code: 500 };
             return;
         }
-        const { _id, postId, content } = ctx.request.body;
+        const { _id, postId, gameId,content } = ctx.request.body;
         const user = ctx.session.user._id;
         //插入或更新回复
         const res1 = await gameReply.findByIdAndUpdate(
             _id || mongoose.Types.ObjectId(),
-            { $set: { postId, content, user, 'meta.updateAt': Date.now() } },
+            { $set: { postId, gameId,content, user, 'meta.updateAt': Date.now() } },
             { upsert: true, new: true, setDefaultsOnInsert: true });
         //更新回复数量及最后回复人
         const res2 = await gamePost.findByIdAndUpdate(

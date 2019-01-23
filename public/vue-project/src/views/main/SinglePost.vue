@@ -103,6 +103,7 @@ export default {
     async sendReply() {
       const postId = this.postId;
       const content = this.reply;
+      const gameId = this.gameData._id;
 
       const postSize = new Blob([content]).size / (1024 * 1024); //post内容mb
 
@@ -120,6 +121,7 @@ export default {
       }
       const res = await https.sendNewReply({
         postId,
+        gameId,
         content
       });
 

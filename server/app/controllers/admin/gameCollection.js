@@ -1,4 +1,6 @@
 const gameCollection = require('../../models/gameCollection');
+const gamePost = require('../../models/gamePost');
+const gameReply = require('../../models/gameReply');
 const upload = require('../file/upload');
 const deleteFile = require('../file/delete');
 const url = require('../file/url');
@@ -105,8 +107,18 @@ const gameCollectionObj = {
             ctx.body = { code: 500, msg: '文件删除失败' }
             return;
         }
-        const res = await gameCollection.deleteById(data._id);
-        ctx.body = { code: res.errors ? 500 : 200 }
+        const res1 = gameCollection.deleteById(data._id);
+        const res2 = gamePost.deleteMany({ gameId: data._id });
+        const res3 = gameReply.deleteMany({ gameId: data._id });
+
+        const res = await Promise.all([res1, res2, res3]).then(res => res);
+
+        if (res[0].errors || res2.ok != 1 || res3.ok != 1) {
+            ctx.body = { code: 500 };
+            return
+
+        }
+        ctx.body = { code: 200 }
 
     },
     queryGameCollection: async (ctx) => {
