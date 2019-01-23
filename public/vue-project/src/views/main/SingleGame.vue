@@ -67,7 +67,7 @@
           prop="title"
           :rules="[
           { required: true, message: '请输入标题', trigger: 'blur' },
-          { max: 25, message: '长度最长25个字符', trigger: 'blur' }
+          { max: 50, message: '长度最长50个字符', trigger: 'blur' }
         ]"
         >
           <el-input placeholder="请输入标题" v-model="post.title"></el-input>
