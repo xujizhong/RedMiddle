@@ -21,7 +21,7 @@ const deleteFile = (FullFileName) => {
             } else {
                 console.log(respInfo.statusCode);
                 console.log(respBody);
-                if(respInfo.statusCode == 200){
+                if(respInfo.statusCode == 200 || respInfo.statusCode == 612 ){
                     resolve({ code: 200 })
                 }else{
                     resolve({ code: 500 })

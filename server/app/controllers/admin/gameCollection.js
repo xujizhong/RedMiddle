@@ -22,7 +22,7 @@ const gameCollectionObj = {
         } else {
             imageType = data.image.split(';')[0].split('/')[1]
         }
-        if (data.image.indexOf(_config.qiniuUrl) >= 0) {
+        if (data.titleImage.indexOf(_config.qiniuUrl) >= 0) {
             titleImageType = data.titleImage.split('?')[0].split('.')
             titleImageType = titleImageType[titleImageType.length-1]
 
