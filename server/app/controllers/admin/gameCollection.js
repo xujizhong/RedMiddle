@@ -104,6 +104,7 @@ const gameCollectionObj = {
         const d2 = deleteFile(titleImage);
         const delete_res = await Promise.all([d1, d2]).then(res => res);
         if (delete_res[0].code != 200 || delete_res[1].code != 200) {
+            console.log(delete_res)
             ctx.body = { code: 500, msg: '文件删除失败' }
             return;
         }
@@ -114,6 +115,7 @@ const gameCollectionObj = {
         const res = await Promise.all([res1, res2, res3]).then(res => res);
 
         if (res[0].errors || res2.ok != 1 || res3.ok != 1) {
+            console.log(res)
             ctx.body = { code: 500 };
             return
 
