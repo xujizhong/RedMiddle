@@ -1,21 +1,27 @@
 <template>
   <div id="app">
     <router-view/>
-    <div v-html="tj"></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
-  data() {
-    return {
-      tj: unescape(
-        "%3Cspan id='cnzz_stat_icon_1276056134'%3E%3C/span%3E%3Cscript src='" +
-          (document.location.protocol ? "https://" : "http://") +
-          "s23.cnzz.com/z_stat.php%3Fid%3D1276056134%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"
-      )
-    };
-  }
+  mounted() {
+    const script = document.createElement("script");
+    script.src =`<script type="text/javascript" src="https://s23.cnzz.com/z_stat.php?id=1276056134&web_id=1276056134"></script>`;
+    script.language = "JavaScript";
+    document.body.appendChild(script);
+  },
+  watch: {
+    $route() {
+      if (window._czc) {
+        let location = window.location;
+        let contentUrl = location.pathname + location.hash;
+        let refererUrl = "/";
+        window._czc.push(["_trackPageview", contentUrl, refererUrl]);
+      }
+    }
+  },
 };
 </script>
