@@ -18,10 +18,12 @@ const userObj = {
             const fileType = avatar.split(';')[0].split('/')[1]
             const fileName = timestamp + "_" + userId + '.' + fileType;
             const old_avatar = userInfo.avatar;
-            const d = await deleteFile(old_avatar || '')
-            if (d.code != 200) {
-                ctx.body = { code: 500, msg: "上传文件出错" };
-                return;
+            if (old_avatar) {
+                const d = await deleteFile(old_avatar || '')
+                if (d.code != 200) {
+                    ctx.body = { code: 500, msg: "上传文件出错" };
+                    return;
+                }
             }
             const p = await upload(filePath, fileName, avatar);
 
