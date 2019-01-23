@@ -7,7 +7,7 @@ const bucketManager = new qiniu.rs.BucketManager(mac, config);
 const privateBucketDomain = _config.qiniuUrl;
 
 const url = key => {
-    if(!key) return 0;
+    if(!key) return null;
     const deadline = parseInt(Date.now() / 1000) + (60 * 60 * 24); // 1天过期
     return bucketManager.privateDownloadUrl(privateBucketDomain, key, deadline)
 }
