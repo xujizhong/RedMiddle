@@ -9,7 +9,7 @@ export default {
   name: "App",
   mounted() {
     const script = document.createElement("script");
-    script.src =`<script type="text/javascript" src="https://s23.cnzz.com/z_stat.php?id=1276056134\&web_id=1276056134"><\/script>`;
+    script.src =`\<script type=\"text\/javascript\" src=\"https:\/\/s23.cnzz.com\/z_stat.php\?id=1276056134\&web_id=1276056134"\>\<\/script\>`;
     script.language = "JavaScript";
     document.body.appendChild(script);
   },
