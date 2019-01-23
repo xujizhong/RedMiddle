@@ -18,13 +18,13 @@ const gameCollectionObj = {
 
         if (data.image.indexOf(_config.qiniuUrl) >= 0) {
             imageType = data.image.split('?')[0].split('.')
-            imageType = imageType[imageType.length-1]
+            imageType = imageType[imageType.length - 1]
         } else {
             imageType = data.image.split(';')[0].split('/')[1]
         }
         if (data.titleImage.indexOf(_config.qiniuUrl) >= 0) {
             titleImageType = data.titleImage.split('?')[0].split('.')
-            titleImageType = titleImageType[titleImageType.length-1]
+            titleImageType = titleImageType[titleImageType.length - 1]
 
         } else {
             titleImageType = data.titleImage.split(';')[0].split('/')[1]
@@ -47,9 +47,9 @@ const gameCollectionObj = {
                     return;
                 }
                 p1 = upload(filePath, imageName, data.image);
-            }else{
+            } else {
                 imageName = image.split('/')
-                imageName = imageName[imageName.length-1]
+                imageName = imageName[imageName.length - 1]
 
             }
 
@@ -62,9 +62,9 @@ const gameCollectionObj = {
                     return;
                 }
                 p2 = upload(filePath, titleImageName, data.titleImage);
-            }else{
+            } else {
                 titleImageName = titleImage.split('/')
-                titleImageName = titleImageName[titleImageName.length-1]
+                titleImageName = titleImageName[titleImageName.length - 1]
             }
         } else {
             p1 = upload(filePath, imageName, data.image);
@@ -97,7 +97,14 @@ const gameCollectionObj = {
     },
     deleteGameCollection: async (ctx) => {
         const data = ctx.request.body;
-
+        const { image, titleImage } = await gameCollection.findOne({ _id: data._id });
+        const d1 = deleteFile(image);
+        const d2 = deleteFile(titleImage);
+        const delete_res = await Promise.all([d1, d2]).then(res => res);
+        if (delete_res[0].code != 200 || delete_res[1].code != 200) {
+            ctx.body = { code: 500, msg: '文件删除失败' }
+            return;
+        }
         const res = await gameCollection.deleteById(data._id);
         ctx.body = { code: res.errors ? 500 : 200 }
 
