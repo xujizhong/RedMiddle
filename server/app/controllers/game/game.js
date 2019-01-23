@@ -15,10 +15,10 @@ const gameObj = {
         const { gameId, skip, limit } = ctx.request.body;
         const count = await gamePost.countDocuments({ gameId });
         const res = await gamePost.
-        find({ gameId }, {}, { skip, limit }).
-        sort({ 'meta.updateAt': -1 }).
-        populate('user').
-        populate('lastReplyUser');
+            find({ gameId }, {}, { skip, limit }).
+            sort({ 'meta.updateAt': -1 }).
+            populate('user').
+            populate('lastReplyUser');
 
         ctx.body = { res, count };
 
@@ -45,12 +45,18 @@ const gameObj = {
         const res1 = gameCollection.findOne({ englishName });
         const res2 = gamePost.find({ _id: postId }).sort({ 'meta.updateAt': -1 }).populate('user');
         const res3 = await gameReply.
-        find({ postId },{}, { skip, limit }).
-        sort({ 'meta.updateAt': -1 }).
-        populate('user')
+            find({ postId }, {}, { skip, limit }).
+            sort({ 'meta.updateAt': -1 }).
+            populate('user')
 
         const res = await Promise.all([res1, res2, res3]).then(res => {
             res[0].titleImage = url(res[0].titleImage)
+            res[1].forEach(n => {
+                n.user.avatar = url(n.user.avatar)
+            });
+            res[2].forEach(n => {
+                n.user.avatar = url(n.user.avatar)
+            });
             return res
         });
 

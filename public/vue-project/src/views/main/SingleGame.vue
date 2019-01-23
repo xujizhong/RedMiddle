@@ -26,10 +26,9 @@
       <el-table-column prop="replyCount" label="回复" min-width="10%"></el-table-column>
       <el-table-column prop="title" label="标题" min-width="60%">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            @click.native.prevent="$router.push(`/post/${$route.params.englishName}/${scope.row._id}`)"
-          >{{scope.row.title}}</el-button>
+          <router-link
+            :to="`/post/${$route.params.englishName}/${scope.row._id}`"
+          >{{scope.row.title}}</router-link>
         </template>
       </el-table-column>
       <el-table-column prop="userName" label="发帖人" min-width="15%" align="center">
@@ -96,7 +95,7 @@
 
 <script>
 import https from "../../https/game/https";
-import $ from 'jquery';
+import $ from "jquery";
 
 export default {
   async mounted() {
@@ -123,22 +122,36 @@ export default {
       },
       editorOption: {
         modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            ["blockquote", "code-block"],
-            [{ header: 1 }, { header: 2 }],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ direction: "rtl" }],
-            [{ size: ["small", false, "large", "huge"] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ font: [] }],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["clean"],
-            ["link", "image", "video"]
-          ]
+          toolbar: {
+            container: [
+              ["bold", "italic", "underline", "strike"],
+              ["blockquote", "code-block"],
+              [{ header: 1 }, { header: 2 }],
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }],
+              [{ indent: "-1" }, { indent: "+1" }],
+              [{ direction: "rtl" }],
+              [{ size: ["small", false, "large", "huge"] }],
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              [{ font: [] }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+              ["clean"],
+              ["link", "image", "video"]
+            ],
+            handlers: {
+              image() {
+                var range = this.quill.getSelection();
+                var value = prompt("请输入图片链接");
+                this.quill.insertEmbed(
+                  range.index,
+                  "image",
+                  value,
+                  // Quill.sources.USER
+                );
+              }
+            }
+          }
         }
       }
     };
@@ -173,7 +186,11 @@ export default {
           this.postErrMsg = "发表内容超过1MB啦";
           return;
         }
-        if($(content).text().trim().length < 8){
+        if (
+          $(content)
+            .text()
+            .trim().length < 8
+        ) {
           this.postErrMsg = "发表内容字符长度不能小于8";
           return;
         }

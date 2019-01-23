@@ -17,7 +17,11 @@
           <el-menu-item v-if="_.isEmpty($store.state.user)" index="/sign/login" class="fr">登录</el-menu-item>
           <el-submenu v-if="!_.isEmpty($store.state.user)" index :style="{float:'right'}">
             <template slot="title">
-              <img v-if = "$store.state.user.avatar" :src="$store.state.user.avatar" class="avatar_nav">
+              <img
+                v-if="$store.state.user.avatar"
+                :src="$store.state.user.avatar"
+                class="avatar_nav"
+              >
               <img v-else src="../../assets/avatar.png" class="avatar_nav">
             </template>
             <el-menu-item index="/admin">
@@ -35,7 +39,9 @@
       <el-main>
         <router-view/>
       </el-main>
-      <el-footer>copyright © RedMiddle <a href="http://www.miitbeian.gov.cn/">辽ICP备18015473号</a></el-footer>
+      <el-footer>copyright © RedMiddle
+        <a href="http://www.miitbeian.gov.cn/" rel="nofollow">辽ICP备18015473号</a>
+      </el-footer>
     </el-container>
   </div>
 </template>

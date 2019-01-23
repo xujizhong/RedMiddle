@@ -26,11 +26,11 @@
         <template slot-scope="scope">
           <div>{{scope.row.user.name}}</div>
           <div>注册：{{moment(scope.row.user.meta.createAt).format('YYYY-MM-DD')}}</div>
-          <img v-if = "scope.row.user.avatar" :src="scope.row.user.avatar" class="avatar_reply">
+          <img v-if="scope.row.user.avatar" :src="scope.row.user.avatar" class="avatar_reply">
           <img v-else src="../../assets/avatar.png" class="avatar_reply">
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容"  min-width="75%">
+      <el-table-column prop="content" label="内容" min-width="75%">
         <template slot-scope="scope">
           <div class="replyAt">{{global.postTimeFormat(scope.row.meta.createAt)}}</div>
           <div v-html="scope.row.content"></div>
@@ -75,8 +75,8 @@
   </div>
 </template>
 <script>
-import https from '../../https/game/https';
-import $ from 'jquery';
+import https from "../../https/game/https";
+import $ from "jquery";
 
 export default {
   mounted() {
@@ -110,7 +110,11 @@ export default {
         this.replyErrMsg = "发表内容超过1MB啦";
         return;
       }
-      if($(content).text().trim().length < 8){
+      if (
+        $(content)
+          .text()
+          .trim().length < 8
+      ) {
         this.replyErrMsg = "发表内容字符长度不能小于8";
         return;
       }
@@ -175,22 +179,36 @@ export default {
       },
       editorOption: {
         modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            ["blockquote", "code-block"],
-            [{ header: 1 }, { header: 2 }],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ direction: "rtl" }],
-            [{ size: ["small", false, "large", "huge"] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ font: [] }],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["clean"],
-            ["link", "image", "video"]
-          ]
+          toolbar: {
+            container: [
+              ["bold", "italic", "underline", "strike"],
+              ["blockquote", "code-block"],
+              [{ header: 1 }, { header: 2 }],
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }],
+              [{ indent: "-1" }, { indent: "+1" }],
+              [{ direction: "rtl" }],
+              [{ size: ["small", false, "large", "huge"] }],
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              [{ font: [] }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+              ["clean"],
+              ["link", "image", "video"]
+            ],
+            handlers: {
+              image() {
+                var range = this.quill.getSelection();
+                var value = prompt("请输入图片链接");
+                this.quill.insertEmbed(
+                  range.index,
+                  "image",
+                  value
+                  // Quill.sources.USER
+                );
+              }
+            }
+          }
         }
       }
     };
@@ -207,22 +225,22 @@ export default {
 </script>
 <style scoped>
 #replyTable >>> td {
-vertical-align: top
+  vertical-align: top;
 }
 #replyTable >>> tr td:first-child .cell div:first-child {
-font-size: 20px;
+  font-size: 20px;
 }
-#replyTable >>> tr td:first-child .cell div:first-child+div {
-font-size: 8px;
-color:#a2a2a2;
+#replyTable >>> tr td:first-child .cell div:first-child + div {
+  font-size: 8px;
+  color: #a2a2a2;
 }
 #replyTable >>> img {
   max-width: 100%;
-  max-height:400px;
+  max-height: 400px;
 }
-.replyAt{
+.replyAt {
   text-align: right;
-  color:#a2a2a2;
+  color: #a2a2a2;
 }
 </style>
 
