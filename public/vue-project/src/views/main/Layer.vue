@@ -24,8 +24,14 @@
               >
               <img v-else src="../../assets/avatar.png" class="avatar_nav">
             </template>
-            <el-menu-item index="/admin">
+            <el-menu-item
+              index="/admin"
+              v-if="(!_.isEmpty($store.state.user) && ($store.state.user.level == 0))"
+            >
               <v-icon name="monitor"></v-icon>管理
+            </el-menu-item>
+            <el-menu-item index="/own/post">
+              <v-icon name="user"></v-icon>我的
             </el-menu-item>
             <el-menu-item index="/user/profile">
               <v-icon name="settings"></v-icon>设置

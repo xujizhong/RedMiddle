@@ -6,6 +6,7 @@ const usersSchema = new mongoose.Schema({
     email: String,                       //邮箱
     phone: String,                       //手机
     avatar: String,                      //头像
+    level: Number,                       //等级
     email_verification_code: String,     //邮箱注册验证码
     email_verified: Boolean,             //邮箱是否验证
     email_verification_time_out: {       //邮箱注册验证码超时时间

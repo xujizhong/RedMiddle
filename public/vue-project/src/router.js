@@ -4,6 +4,7 @@ import Main from './views/main/Layer.vue'
 import Sign from './views/sign/Layer.vue'
 import Admin from './views/main/admin/Layer.vue'
 import User from './views/main/user/Layer.vue'
+import Own from './views/main/own/Layer.vue'
 
 Vue.use(Router)
 
@@ -65,6 +66,23 @@ export default new Router({
               path: 'gameType',
               component: () => import('./views/main/admin/GameType.vue'),
               name: 'GameType'
+            }
+          ]
+        },
+        {
+          path: 'own',
+          component: Own,
+          name: 'own',
+          children:[
+            {
+              path: 'post',
+              component: () => import('./views/main/own/OwnPost.vue'),
+              name: 'post'
+            },
+            {
+              path: 'reply',
+              component: () => import('./views/main/own/OwnReply.vue'),
+              name: 'reply'
             }
           ]
         }
